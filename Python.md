@@ -3,8 +3,18 @@
 `pd.read_json("file_path")`
 `pd.read_json("file_path",orient="records",lines=True)`
 ##
-## Graph Systems
->Seaborn is built on top of matplotlib,which means they should be loaded at the same time.
+## Data Wrangling
+#### .sample()
+Select n random rows from a datafram
+`new_Dataframe = old_datafram.sample(n = 1000)`
+#### .to_frame()
+To convert the given series object to a dataframe.
+#### Add new columns
+`dataframe["newframe"]=value/string/something`
+#### .dtype
+Check data types
+
+##
 ##
 ## Text Mining
 #### Seperate and lower the character
@@ -36,10 +46,11 @@ dataframe["text_column"] = [
 `blobs = [textblob.TextBlob(" ".join(b)) for b in datafram["formatted_text"]]`
 
 p.s.`" ".join(b)` is to convert a list to string, by which the `textblob.TextBlob()` function could use.
-
 ##
-## Plot Examples
-> Seaborn Boxplot
+## Graph Systems
+>Seaborn is built on top of matplotlib,which means they should be loaded at the same time.
+### Plot Examples
+#### Seaborn Boxplot
 ```
 figure, axes = plt.subplots(1, 2)
 figure.suptitle("Polarity & Subjectivity Plots based on Review Stars",fontsize=25)
@@ -88,4 +99,4 @@ for line in boxplot2.get_lines():
 plt.rcParams["figure.figsize"] = [16,10]
 plt.show()
 ```
-![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/FireShot%20Capture%20010%20-%20assignment-4%20-%20Jupyter%20Notebook%20-%20localhost.png?raw=true)
+![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/seaborn_boxplots.png?raw=true)
