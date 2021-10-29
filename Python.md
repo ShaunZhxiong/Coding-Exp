@@ -2,6 +2,7 @@
 ### Geojson
 `pd.read_json("file_path")`
 `pd.read_json("file_path",orient="records",lines=True)`
+`holc = gpd.read_file("./data/redlining.geojson")`
 ##
 ## Data Wrangling
 #### .sample()

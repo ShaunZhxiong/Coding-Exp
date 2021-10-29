@@ -1,5 +1,6 @@
-## Data Operation
+# Data Operation
 ## Spatial Operation
+## cbind()
 ## rbind()
 Add **legend** tags into each dataframe and combine them into one datafram in row aspect
 ```
@@ -76,3 +77,6 @@ cbind(
 
 To **omit** the NA Value in calculation
 `na.omit()`
+
+# Data Visualization
+### https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
