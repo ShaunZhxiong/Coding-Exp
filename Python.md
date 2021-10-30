@@ -5,20 +5,53 @@
 `holc = gpd.read_file("./data/redlining.geojson")`
 ##
 ## Data Wrangling
+#### Rename
+`df.rename(columns={"A": "a"}, errors="raise")`
+
+#### [Subeset dataframe from a datafram](https://datacarpentry.org/python-ecology-lesson/03-index-slice-subset/)
+```
+# Column
+
+## Easy ways
+new_Df=DF[[column]]
+
+## Select all rows for columns:
+new_df.loc[:,"column_name1",column_name2"]
+
+# Row
+## Select all columns for rows [0,10] 
+surveys_df.loc[[0, 10], :]
+```
 #### .sample()
-Select n random rows from a datafram
-`new_Dataframe = old_datafram.sample(n = 1000)`
+Select n random rows from a datafram `new_Dataframe = old_datafram.sample(n = 1000)`
 #### .to_frame()
 To convert the given series object to a dataframe.
 #### Add new columns
 `dataframe["newframe"]=value/string/something`
 #### .dtype
 Check data types
+#### .pd.merge() & pd.concat() & join()
+>- .pd.merge()
 
+`df3 = pd.merge(df1, df2, on="ID")`
+```
+new_df = old_df1.merge(
+    old_df2,
+    left_on=["column1", "column2", "column3"],
+    right_on=["column1.1", "column2.2", "column3.3"],
+)
+```
+
+>- pd.concat()
+1. Can concat multiple dataframes at one time
+2. However, if there exists same columns in each dataframe, they will be remained.
+#### .shape[]
+- The shape attribute for numpy arrays returns the dimensions of the array. If Y has n rows and m columns, then Y.shape is (n,m)
+- Y.shape[0] is n. 
 ##
 ##
 ## Text Mining
-#### Seperate and lower the character
+#### [Seperate and lower the character](https://piazza.com/class/ksndf5uswe77dq?cid=72)
 `.lower()` makes all words lower cased
 `.split()` splits a string into the individual words
 
@@ -48,9 +81,37 @@ dataframe["text_column"] = [
 
 p.s.`" ".join(b)` is to convert a list to string, by which the `textblob.TextBlob()` function could use.
 ##
+## Geospatial Wrangling
+#### FIPS CODE
+```
+counties = cenpy.explorer.fips_table("COUNTY")
+counties.loc[ counties[3].str.contains("Philadelphia") ]
+```
+
+
 ## Graph Systems
 >Seaborn is built on top of matplotlib,which means they should be loaded at the same time.
 ### Plot Examples
+
+#### [Matplot Colormap](https://matplotlib.org/2.0.2/users/colormaps.html)
+#### Plot Chronopleth
+```
+fig, ax = plt.subplots(figsize=(20,10))
+clv_MMedHHInc_M.plot(
+    ax=ax, 
+    column='MedHHInc',
+    legend=True,
+    cmap='viridis',
+    scheme='quantiles', 
+    alpha=0.4, 
+    edgecolor='k'
+)
+
+cx.add_basemap(ax,zoom=12, crs=clv_MMedHHInc_M.crs, source=cx.providers.OpenStreetMap.Mapnik)
+ax.set_axis_off()
+ax.set_title("Median Household Income, Cleveland", fontsize=25);
+```
+![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/seaborn_boxplots.png?raw=true)
 #### Seaborn Boxplot
 ```
 figure, axes = plt.subplots(1, 2)
