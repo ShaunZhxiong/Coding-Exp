@@ -16,7 +16,7 @@
 new_Df=DF[[column]]
 
 ## Select all rows for columns:
-new_df.loc[:,"column_name1",column_name2"]
+new_df.loc[:,["column_name1",column_name2"]]
 
 # Row
 ## Select all columns for rows [0,10] 
@@ -82,12 +82,18 @@ dataframe["text_column"] = [
 p.s.`" ".join(b)` is to convert a list to string, by which the `textblob.TextBlob()` function could use.
 ##
 ## Geospatial Wrangling
+`boundary = cascaded_union(clv_MMedHHInc_M['geometry'])`
+Geometry points do not have crs, only polygons have.
 #### FIPS CODE
 ```
 counties = cenpy.explorer.fips_table("COUNTY")
 counties.loc[ counties[3].str.contains("Philadelphia") ]
 ```
-
+#### Coordinate System
+```
+DF['geometry'] = gpd.points_from_xy(DF['longitude'], DF['latitude'])
+DF = gpd.GeoDataFrame(DF, geometry='geometry', crs="EPSG:XXXXX")
+```
 
 ## Graph Systems
 >Seaborn is built on top of matplotlib,which means they should be loaded at the same time.
@@ -95,6 +101,8 @@ counties.loc[ counties[3].str.contains("Philadelphia") ]
 
 #### [Matplot Colormap](https://matplotlib.org/2.0.2/users/colormaps.html)
 #### Plot Chronopleth
+[BASEMap Tuorial](https://geopandas.org/gallery/plotting_basemap_background.html)
+[BASEMap Library ](https://towardsdatascience.com/free-base-maps-for-static-maps-using-geopandas-and-contextily-cd4844ff82e1)
 ```
 fig, ax = plt.subplots(figsize=(20,10))
 clv_MMedHHInc_M.plot(
@@ -111,7 +119,35 @@ cx.add_basemap(ax,zoom=12, crs=clv_MMedHHInc_M.crs, source=cx.providers.OpenStre
 ax.set_axis_off()
 ax.set_title("Median Household Income, Cleveland", fontsize=25);
 ```
-![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/seaborn_boxplots.png?raw=true)
+![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/choropleth1.png?raw=true)
+
+```
+fig, ax = plt.subplots(figsize=(10,10))
+
+divider = make_axes_locatable(ax)
+cax = divider.append_axes("right", size="5%", pad=0.1)
+
+c_limit.plot(ax=ax, edgecolor='black', facecolor='none', linewidth=4)
+
+geo_philly.plot(ax=ax, edgecolor='black', facecolor='none', linewidth=0.1)
+
+st_trees.plot(
+    column='NDVI', 
+    legend=True, 
+    ax=ax,
+    cax=cax,
+    cmap='OrRd',
+    s = 55,
+    alpha = 0.5)
+
+cx.add_basemap(ax,
+               zoom=12, 
+               crs=st_trees.crs)
+
+plt.title("Brooklyn",fontsize=10)
+ax.set_title("Tree NDVI in Philadelphia EPSG:32618", fontsize=18);
+```
+![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/choropleth2.png?raw=true)
 #### Seaborn Boxplot
 ```
 figure, axes = plt.subplots(1, 2)
