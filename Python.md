@@ -97,9 +97,52 @@ DF = gpd.GeoDataFrame(DF, geometry='geometry', crs="EPSG:XXXXX")
 
 ## Graph Systems
 >Seaborn is built on top of matplotlib,which means they should be loaded at the same time.
+
+>What is the difference between **plt** and **ax** in matplotlib [Clik](https://stackoverflow.com/questions/37970424/what-is-the-difference-between-drawing-plots-using-plot-axes-or-figure-in-matpl)
 ### Plot Examples
 
 #### [Matplot Colormap](https://matplotlib.org/2.0.2/users/colormaps.html)
+#### Scatter Plot
+```
+# Plot Scatter
+fig, ax = plt.subplots(figsize=(90,55))
+size_scatter=12*filtered['count']
+plt.scatter('polarity', 'stars', s=size_scatter,
+            data=filtered,color="red", alpha=0.5,
+           edgecolors="white", linewidth=2)
+plt.xlim(0.05, 0.42)
+plt.ylim(2, 4.5)
+plt.grid(color='#A8A8A8', lw=5,linestyle='dashed')
+
+# Plot Text
+for a in range(len(filtered)):
+    ax.text(x=filtered.iloc[a,3]+0.001,y=filtered.iloc[a,2],s=filtered.iloc[a,0])
+
+# Setting
+ax.axvline(x=mean_polarity, c='k', lw=10,linestyle='dashed')
+ax.axhline(y=mean_stars, c='k', lw=10,linestyle='dashed')
+ax.set_xlabel("Polarity", fontsize=75)
+ax.set_ylabel("Stars", fontsize=75);
+ax.set_title("Polarity as a function of Reviews' stars", fontsize=100);
+ax.tick_params(axis='both', which='major', labelsize=65)
+ax.spines["left"].set_color("black")
+ax.spines["bottom"].set_color("black")
+
+# Regression Line
+linear_regressor = LinearRegression()
+polarity=filtered['polarity'].values
+stars=filtered['stars'].values
+polarity=polarity.reshape(-1,1)
+linear_regressor = LinearRegression()
+linear_regressor.fit(np.log(polarity), stars)
+x_pred = np.log(np.linspace(0.05, 0.42, num=200).reshape(-1, 1))
+y_pred = linear_regressor.predict(x_pred)
+ax.plot(np.exp(x_pred), y_pred, color="#696969", lw=10)
+
+plt.rcParams['axes.facecolor'] = 'white'
+```
+![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/choropleth1.png?raw=true)
+
 #### Plot Chronopleth
 [BASEMap Tuorial](https://geopandas.org/gallery/plotting_basemap_background.html)
 [BASEMap Library ](https://towardsdatascience.com/free-base-maps-for-static-maps-using-geopandas-and-contextily-cd4844ff82e1)
@@ -148,6 +191,60 @@ plt.title("Brooklyn",fontsize=10)
 ax.set_title("Tree NDVI in Philadelphia EPSG:32618", fontsize=18);
 ```
 ![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/choropleth2.png?raw=true)
+
+```
+# Set canvas
+fig, axs = plt.subplots(ncols=2,figsize=(20,10))
+ax1=axs[0]
+ax2=axs[1]
+
+# hexbin coordinate
+xcoords = mergedf.geometry.x
+ycoords = mergedf.geometry.y
+polarity = mergedf.polarity
+
+# Tract plot
+clv_MMedHHInc_M.plot(ax=ax1,facecolor="none", edgecolor="black", linewidth=0.25)
+clv_MMedHHInc_M.plot(ax=ax2,facecolor="none", edgecolor="black", linewidth=0.25)
+
+# Hexbin plot
+hex_vals1 = ax1.hexbin(
+    xcoords, 
+    ycoords, 
+    gridsize=30,
+    C=mergedf.polarity,
+    reduce_C_function=np.median)
+
+hex_vals2 = ax2.hexbin(
+    xcoords, 
+    ycoords, 
+    gridsize=30,
+    C=mergedf.stars,
+    reduce_C_function=np.median)
+
+ax1.set_title("Map of Review Polarities, Celveland", fontsize=18);
+ax2.set_title("Map of Restaurant, Celveland", fontsize=18);
+
+ax1.set_axis_off()
+ax2.set_axis_off()
+
+# Color bar
+divider1 = make_axes_locatable(ax1)
+cax1 = divider1.append_axes('right', size='5%', pad=0.05)
+colorbar_polarity=fig.colorbar(hex_vals1, cax=cax1, orientation='vertical')
+
+divider2 = make_axes_locatable(ax2)
+cax2 = divider2.append_axes('right', size='5%', pad=0.05)
+colorbar_stars=fig.colorbar(hex_vals2, cax=cax2, orientation='vertical')
+
+colorbar_polarity.ax.set_title('Polarity')
+colorbar_stars.ax.set_title('Star')
+
+# Basemap plot
+cx.add_basemap(ax1,zoom=13, crs=clv_MMedHHInc_M.crs, source=cx.providers.OpenStreetMap.Mapnik)
+cx.add_basemap(ax2,zoom=13, crs=clv_MMedHHInc_M.crs, source=cx.providers.OpenStreetMap.Mapnik)
+```
+![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/choropleth3.png?raw=true)
 #### Seaborn Boxplot
 ```
 figure, axes = plt.subplots(1, 2)
