@@ -141,7 +141,7 @@ ax.plot(np.exp(x_pred), y_pred, color="#696969", lw=10)
 
 plt.rcParams['axes.facecolor'] = 'white'
 ```
-![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/choropleth1.png?raw=true)
+![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/scatter1.png?raw=true)
 
 #### Plot Chronopleth
 [BASEMap Tuorial](https://geopandas.org/gallery/plotting_basemap_background.html)
