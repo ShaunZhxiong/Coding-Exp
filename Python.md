@@ -5,6 +5,26 @@
 `holc = gpd.read_file("./data/redlining.geojson")`
 ##
 ## Data Wrangling
+#### Deal with NA
+- Replace the null values with a space(“ “).
+- Replace the null values with mean/median/mode of the respective columns.
+- The final resort : delete the record/row containing the null value.NOTE: Do this only if your data is not important. Doing this might delete crucial information from your dataset.
+```
+# Check for null values.
+dataset.isnull()
+
+# Check the sum of NA values.
+dataset.isnull().sum()
+
+# To fill the null values
+modifiedDataset=dataset.fillna(" ")
+
+# To replace the null values with mean/median/mode
+dataset.fillna(dataset.mean())
+
+# To delete the entire cell with the null value
+modifiedDataset = dataset.dropna()
+```
 #### Rename
 `df.rename(columns={"A": "a"}, errors="raise")`
 
@@ -18,6 +38,11 @@ new_Df=DF[[column]]
 ## Select all rows for columns:
 new_df.loc[:,["column_name1",column_name2"]]
 
+##
+Within the data frame, to trime to the columns we want
+columns = ['GEO.display-label', 'HD01_VD01', 'HD01_VD03']
+census_df = census_df[columns]
+
 # Row
 ## Select all columns for rows [0,10] 
 surveys_df.loc[[0, 10], :]
@@ -26,8 +51,12 @@ surveys_df.loc[[0, 10], :]
 Select n random rows from a datafram `new_Dataframe = old_datafram.sample(n = 1000)`
 #### .to_frame()
 To convert the given series object to a dataframe.
+#### Get all columns name
+`df.columns`
 #### Add new columns
 `dataframe["newframe"]=value/string/something`
+#### Drop Column
+`df.drop(columns=['B', 'C'])`
 #### .dtype
 Check data types
 #### .pd.merge() & pd.concat() & join()
@@ -80,6 +109,11 @@ dataframe["text_column"] = [
 `blobs = [textblob.TextBlob(" ".join(b)) for b in datafram["formatted_text"]]`
 
 p.s.`" ".join(b)` is to convert a list to string, by which the `textblob.TextBlob()` function could use.
+##
+## Web Scrapping
+`soup.select_one(selector)`finds the first element matching the selector query and returns one element
+`soup.select(selector)`finds all elements matching the selector
+
 ##
 ## Geospatial Wrangling
 `boundary = cascaded_union(clv_MMedHHInc_M['geometry'])`
@@ -165,6 +199,9 @@ ax.set_title("Median Household Income, Cleveland", fontsize=25);
 ![alt text](https://github.com/ShaunZhxiong/Coding-Exp/blob/main/Pics/choropleth1.png?raw=true)
 
 ```
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+import contextily as cx
+
 fig, ax = plt.subplots(figsize=(10,10))
 
 divider = make_axes_locatable(ax)
