@@ -1,6 +1,10 @@
 # [Ubuntu tips](https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-database)
 
-To open the MySQL prompt, enter: `sudo mysql`
+To open the MySQL prompt, enter:
+
+ `sudo /etc/init.d/mysql start`
+
+`sudo mysql`
 
 
 

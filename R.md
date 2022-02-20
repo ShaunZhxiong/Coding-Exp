@@ -70,16 +70,34 @@ geojson file
 
 ## as.factor()
 > Specify a column type to be factor (also called categorical or enumerative), rather than numeric.
+## Select element
+
+`v[-c(2,3)]`
+
+Fetch everything except the 2nd and 3rd element
+
+`v[v > 6]`
+
+Fetch everything that's bigger than 6
+
+`which(v > 6)`
+
+Which elements in v are bigger than 6? The outcome is the index of the number who are bigger than 6
+
 ## cbind()
+
 ## reindex
 `rownames(HCD2) <- 1:nrow(HCD2)`
+
 ## rbind()
+
 Add **legend** tags into each dataframe and combine them into one datafram in row aspect
 ```
 rbind(mutate(policeDistricts, Legend = "Police Districts"), 
       mutate(policeBeats, Legend = "Police Beats"))
 ```
 ## Logical Operation
+
 ```
 Logical Operators
 Operator	Description
@@ -95,21 +113,21 @@ x & y	x AND y
 isTRUE(x)	test if X is TRUE
 ```
 ##
-### sort();order()
+## sort();order()
 `HCD2 <- HCD[order(HCD$HCD_Outcome, decreasing = TRUE),]`
-### rename()
+## rename()
 `rename(dataframe, newcolumn_name=oldcolumn_name)`
-###
-### unique()
+##
+## unique()
 obtain unique value `unique(v)`
 obtain frequence of specific unique value `length(v[v==1])`
-###
-### colnames(df)
+##
+## colnames(df)
 Get the List of column names
-### lapply(dataframe,class)
+## lapply(dataframe,class)
 Get a list of all classes of the dataframe
-###
-### Sample()
+##
+## Sample()
 `sample(x, size, replace = FALSE`
 Allocate number within x into a random number set with 'size' number
 ```
@@ -118,7 +136,7 @@ nrow(fishnet) is 2402
 cvID = sample(round(nrow(fishnet) / 24), size=nrow(fishnet), replace = TRUE))
 ```
 ##
-### table ()
+## table ()
 >Count the number of times each unique value appears
 ```
 a_df <- as.data.frame(
@@ -128,19 +146,19 @@ a_df <- as.data.frame(
     table(b_df$c_column))
 ```
 ##
-### gsub ()
+## gsub ()
 > Replace specific strings
 ```df -< mutate(new_column = gsub("[()]", "", old_column))```
 
 E.g. The original column format is `(41.900069913, -87.720123959)`
 The after-transferred column format is `41.900069913, -87.720123959`
 ##
-### separate ()
+## separate ()
 > Separate a string into several parts using specific signals.
 
 ```df -< separate(old_column,into= c("new1","new2"), sep=",")```
 ##
-### grid.arrange()
+## grid.arrange()
 > Organize independent plots
 
 ```
@@ -153,9 +171,9 @@ grid.arrange(
 ```
 ##
 ## Join Section
-### full_join()
+## full_join()
 > Include all rows from a and b dataframs
-### left_join()
+## left_join()
 `new_dataframe <-left_join(datafram1, dataframe2, by="specificcolumn")`
 ##
 ## NA Section
@@ -179,7 +197,7 @@ too many open devices
      dev.off()}
  dev.list()
 ```
-###
+##
 There are two types of bar charts: `geom_bar()` and `geom_col()`. `geom_bar()` makes the height of the bar proportional to the number of cases in each group (or if the weight aesthetic is supplied, the sum of the weights). If you want the heights of the bars to represent values in the data, use `geom_col()` instead.
 
-### https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+## https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html

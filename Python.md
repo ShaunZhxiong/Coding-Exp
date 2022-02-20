@@ -4,6 +4,7 @@
 `pd.read_json("file_path",orient="records",lines=True)`
 `holc = gpd.read_file("./data/redlining.geojson")`
 ##
+
 ## Data Wrangling
 #### Deal with NA
 - Replace the null values with a space(“ “).
